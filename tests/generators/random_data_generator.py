@@ -12,5 +12,5 @@ def get_random_int() -> int:
     return fake.random_int(min=1, max=1000)
 
 
-def random_email_str() -> str:
+def get_random_email_str() -> str:
     return fake.email()
