@@ -9,7 +9,7 @@ log = file_logger(__name__)
 
 
 def is_eql(actual: dict[str, Any], expected: dict[str, Any]) -> bool:
-    diff = DeepDiff()
+    diff = DeepDiff(actual, expected)
 
     log.info("Начало сравнения фактического и ожидаемого словаря")
     if not diff:
