@@ -2,7 +2,6 @@ import pytest
 
 from schemas.api.album.request.album_request import AlbumRequest
 from schemas.api.comment.request.comment_request import CommentRequest
-from schemas.api.post.request.post_request import PostRequest
 
 from tests.clients.api.jsonplaceholder_client import JsonplaceholderClient
 from tests.generators.random_data_generator import get_random_str, get_random_int, get_random_email_str
@@ -43,18 +42,5 @@ def album():
             title=get_random_str(10),
         )
         return album.model_dump(by_alias=True)
-    except Exception as e:
-        log.error(e)
-
-
-@pytest.fixture(scope="function")
-def post():
-    try:
-        post = PostRequest(
-            user_id=get_random_int(),
-            title=get_random_str(10),
-            body=get_random_str(30),
-        )
-        return post.model_dump(by_alias=True)
     except Exception as e:
         log.error(e)
