@@ -1,5 +1,6 @@
 import pytest
 
+from schemas.api.album.request.album_request import AlbumRequest
 from schemas.api.comment.request.comment_request import CommentRequest
 
 from tests.clients.api.api_client import ApiClient
@@ -29,5 +30,14 @@ def comment():
             body=get_random_str(30),
         )
         return comment.model_dump(by_alias=True)
+    except Exception as e:
+        log.error(e)
+
+
+@pytest.fixture(scope="function")
+def album():
+    try:
+        album = AlbumRequest(user_id=get_random_int(), title=get_random_str(10))
+        return album.model_dump(by_alias=True)
     except Exception as e:
         log.error(e)
