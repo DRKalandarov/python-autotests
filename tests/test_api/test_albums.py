@@ -28,7 +28,7 @@ class TestAlbums:
         assert AlbumResponse(**response_data[0])
         assert len(response_data) == expected_response_data_len
 
-    @pytest.mark.parametrize("id", [1, 10, 10])
+    @pytest.mark.parametrize("id", [1, 10, 100])
     @pytest.mark.test_case_id("UT-T101")
     def test_get_album_by_id(self, api_client: ApiClient, id: int) -> None:
         """
