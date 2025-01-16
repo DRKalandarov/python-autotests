@@ -9,3 +9,11 @@ class CommentBase(BaseModel):
     body: str | None = Field(default=None)
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
+
+
+class CommentRequest(CommentBase):
+    pass
+
+
+class CommentResponse(CommentBase):
+    id: int

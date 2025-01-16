@@ -6,7 +6,7 @@ from utils.logger.logger import file_logger
 log = file_logger(__name__)
 
 
-class JsonplaceholderClient:
+class ApiClient:
     def __init__(self, host):
         self.host = host
 

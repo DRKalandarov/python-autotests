@@ -7,3 +7,11 @@ class AlbumBase(BaseModel):
     title: str | None = Field(default=None)
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra="forbid")
+
+
+class AlbumRequest(AlbumBase):
+    pass
+
+
+class AlbumResponse(AlbumBase):
+    id: int

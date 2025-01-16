@@ -1,9 +1,9 @@
 import pytest
 
-from schemas.api.album.request.album_request import AlbumRequest
-from schemas.api.comment.request.comment_request import CommentRequest
+from src.album.schemas import AlbumRequest
+from src.comments.schemas import CommentRequest
 
-from tests.clients.api.jsonplaceholder_client import JsonplaceholderClient
+from tests.clients.api.api_client import ApiClient
 from tests.generators.random_data_generator import get_random_str, get_random_int, get_random_email_str
 
 from utils.logger.logger import file_logger
@@ -13,9 +13,9 @@ log = file_logger(__name__)
 
 
 @pytest.fixture(scope="session")
-def jsonplaceholder_client(env_config):
+def api_client(env_config):
     try:
-        return JsonplaceholderClient(host=env_config["JSONPLACEHOLDER_HOST"])
+        return ApiClient(host=env_config["JSONPLACEHOLDER_HOST"])
     except Exception as e:
         log.error(e)
 
