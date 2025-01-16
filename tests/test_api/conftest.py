@@ -16,7 +16,7 @@ log = file_logger(__name__)
 @pytest.fixture(scope="session")
 def api_client(env_config):
     try:
-        return ApiClient(host=env_config["HOST"])
+        return ApiClient(host=env_config["JSONPLACEHOLDER_HOST"])
     except Exception as e:
         log.error(e)
 
