@@ -14,7 +14,7 @@ from utils.compare.compare import is_eql
 class TestComments:
     base_path = "comments"
 
-    @pytest.mark.test_case_id("UT-T100")
+    @pytest.mark.test_case_id("UT-T200")
     def test_get_comments_list(self, api_client: ApiClient) -> None:
         """
         Получение списка всех комментариев
@@ -29,7 +29,7 @@ class TestComments:
         assert len(response_data) == expected_response_data_len
 
     @pytest.mark.parametrize("post_id", [1, 10, 100])
-    @pytest.mark.test_case_id("UT-T101")
+    @pytest.mark.test_case_id("UT-T201")
     def test_get_comment_by_id(self, api_client: ApiClient, post_id: int) -> None:
         """
         Получение комментария по id
@@ -40,7 +40,7 @@ class TestComments:
         assert response.status_code == HttpCodeEnum.OK.value
         assert CommentResponse(**response_data)
 
-    @pytest.mark.test_case_id("UT-T102")
+    @pytest.mark.test_case_id("UT-T202")
     def test_create_comment(self, api_client: ApiClient, comment: dict[str, Any]) -> None:
         """
         Создание комментария
@@ -54,7 +54,7 @@ class TestComments:
         comment["id"] = response_data["id"]
         assert is_eql(response_data, comment)
 
-    @pytest.mark.test_case_id("UT-T103")
+    @pytest.mark.test_case_id("UT-T203")
     def test_update_comment_by_id(self, api_client: ApiClient, comment: dict[str, Any]) -> None:
         """
         Обновление комментария по id
@@ -70,7 +70,7 @@ class TestComments:
         comment["id"] = resource_id
         assert is_eql(response_data, comment)
 
-    @pytest.mark.test_case_id("UT-T104")
+    @pytest.mark.test_case_id("UT-T204")
     def test_delete_comment_by_id(self, api_client: ApiClient) -> None:
         """
         Удаление комментария по id
