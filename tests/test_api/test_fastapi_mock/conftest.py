@@ -17,15 +17,14 @@ log = file_logger(__name__)
 @pytest.fixture(scope="session")
 def api_client(env_config):
     try:
-        return ApiClient(host=env_config["JSONPLACEHOLDER_HOST"])
+        return ApiClient(host=env_config["LOCALHOST"])
     except Exception as e:
         log.error(e)
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def mock_server(env_config):
     url = env_config["LOCALHOST"]
-
     responses.add(
         method=responses.GET,
         url=f"{url}/albums",
