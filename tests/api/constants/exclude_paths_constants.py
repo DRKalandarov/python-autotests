@@ -1,0 +1,2 @@
+ALBUM_RESPONSE_EXCLUDE_PATHS = ["root['id']"]
+COMMENT_RESPONSE_EXCLUDE_PATHS = ["root['id']"]

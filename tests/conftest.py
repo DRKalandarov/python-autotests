@@ -1,7 +1,8 @@
+import allure
+
 import os
 
 import pytest
-
 from pytest_metadata.plugin import metadata_key
 
 from dotenv import dotenv_values
@@ -24,6 +25,7 @@ def pytest_configure(config):
 
 
 @pytest.fixture(scope="session")
+@allure.title("Загрузка конфигурационного файла")
 def env_config(pytestconfig):
     env = pytestconfig.getoption("--env")
     if not os.path.exists(env):

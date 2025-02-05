@@ -15,7 +15,7 @@ mock_data = [
 
 
 @app.get(path="/albums", response_model=list[AlbumResponse])
-def get_albums() -> list[AlbumResponse]:
+def get_albums() -> list[dict[str, Any]]:
     return mock_data
 
 

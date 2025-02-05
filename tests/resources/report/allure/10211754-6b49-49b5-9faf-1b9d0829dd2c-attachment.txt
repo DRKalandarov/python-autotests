@@ -1,0 +1,5 @@
+INFO     tests.api.clients.api_client:api_client.py:89 Отправка запроса PUT /albums/10
+INFO     httpx:_client.py:1025 HTTP Request: PUT https://jsonplaceholder.typicode.com/albums/10 "HTTP/1.1 200 OK"
+INFO     tests.api.clients.api_client:api_client.py:95 Запрос PUT /albums/10 завершен: http_code=200
+INFO     utils.helpers.helpers:helpers.py:24 Начало сравнения фактического словаря и ожидаемого
+INFO     utils.helpers.helpers:helpers.py:26 Словари одинаковые

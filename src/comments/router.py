@@ -15,7 +15,7 @@ mock_data = [
 
 
 @app.get(path="/comments", response_model=list[CommentResponse])
-def get_comments() -> list[CommentResponse]:
+def get_comments() -> list[dict[str, Any]]:
     return mock_data
 
 
