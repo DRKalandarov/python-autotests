@@ -23,8 +23,9 @@ from tests.api.constants.log_constants import (
     DELETE_REQUEST_END,
     DELETE_REQUEST_FAILED,
     DELETE_REQUEST_INFO,
-    RESPONSE_INFO,
+    RESPONSE_SUCCESSFUL,
 )
+
 from utils.logger.logger import file_logger
 
 
@@ -35,16 +36,15 @@ class ApiClient:
     def __init__(self, host: str):
         self.host = host
 
-    def get_resources(
-        self, path: str, query_params: dict[str, Any] | None = None, headers: dict[str, Any] | None = None
-    ) -> Response:
+    def get_resources(self, path: str, headers: dict[str, Any] | None = None) -> Response:
         log.info(GET_REQUEST_START, path)
-        log.debug(GET_REQUEST_INFO, query_params, headers)
+        log.debug(GET_REQUEST_INFO, headers)
 
         try:
-            response = get(url=f"{self.host}/{path}", params=query_params, headers=headers)
+            response = get(url=f"{self.host}/{path}", headers=headers)
 
             log.info(GET_REQUEST_END, path, response.status_code)
+
             return response
         except Exception as e:
             log.error(GET_REQUEST_FAILED, path, e, exc_info=True)
@@ -53,17 +53,16 @@ class ApiClient:
         self,
         path: str,
         resource_id: int,
-        query_params: dict[str, Any] | None = None,
         headers: dict[str, Any] | None = None,
     ) -> Response:
         log.info(GET_BY_ID_REQUEST_START, path, resource_id)
-        log.debug(GET_BY_ID_REQUEST_INFO, query_params, headers)
+        log.debug(GET_BY_ID_REQUEST_INFO, headers)
 
         try:
-            response = get(url=f"{self.host}/{path}/{resource_id}", params=query_params, headers=headers)
+            response = get(url=f"{self.host}/{path}/{resource_id}", headers=headers)
 
             log.info(GET_BY_ID_REQUEST_END, path, resource_id, response.status_code)
-            log.debug(RESPONSE_INFO, response.json())
+            self._log_response(response)
 
             return response
         except Exception as e:
@@ -77,38 +76,42 @@ class ApiClient:
             response = post(url=f"{self.host}/{path}", json=data, headers=headers)
 
             log.info(POST_REQUEST_END, path, response.status_code)
-            log.debug(RESPONSE_INFO, response.json())
+            self._log_response(response)
 
             return response
         except Exception as e:
             log.error(POST_REQUEST_FAILED, path, e, exc_info=True)
 
     def update_resource_by_id(
-        self, path: str, resources_id: int, data: dict[str, Any], headers: dict[str, Any] | None = None
+        self, path: str, resource_id: int, data: dict[str, Any], headers: dict[str, Any] | None = None
     ) -> Response:
-        log.info(PUT_REQUEST_START, path, resources_id)
+        log.info(PUT_REQUEST_START, path, resource_id)
         log.debug(PUT_REQUEST_INFO, headers, data)
 
         try:
-            response = put(url=f"{self.host}/{path}/{resources_id}", json=data, headers=headers)
+            response = put(url=f"{self.host}/{path}/{resource_id}", json=data, headers=headers)
 
-            log.info(PUT_REQUEST_END, path, resources_id, response.status_code)
-            log.debug(RESPONSE_INFO, response.json())
+            log.info(PUT_REQUEST_END, path, resource_id, response.status_code)
+            self._log_response(response)
 
             return response
         except Exception as e:
-            log.error(PUT_REQUEST_FAILED, path, resources_id, e, exc_info=True)
+            log.error(PUT_REQUEST_FAILED, path, resource_id, e, exc_info=True)
 
-    def delete_resource_by_id(self, path: str, resources_id: int, headers: dict[str, Any] | None = None) -> Response:
-        log.info(DELETE_REQUEST_START, path, resources_id)
+    def delete_resource_by_id(self, path: str, resource_id: int, headers: dict[str, Any] | None = None) -> Response:
+        log.info(DELETE_REQUEST_START, path, resource_id)
         log.debug(DELETE_REQUEST_INFO, headers)
 
         try:
-            response = delete(url=f"{self.host}/{path}/{resources_id}", headers=headers)
+            response = delete(url=f"{self.host}/{path}/{resource_id}", headers=headers)
 
-            log.info(DELETE_REQUEST_END, path, resources_id, response.status_code)
-            log.debug(RESPONSE_INFO, response.json())
+            log.info(DELETE_REQUEST_END, path, resource_id, response.status_code)
+            self._log_response(response)
 
             return response
         except Exception as e:
-            log.error(DELETE_REQUEST_FAILED, path, resources_id, e, exc_info=True)
+            log.error(DELETE_REQUEST_FAILED, path, resource_id, e, exc_info=True)
+
+    def _log_response(self, response: Response) -> None:
+        if response.is_success:
+            log.debug(RESPONSE_SUCCESSFUL, response.json())

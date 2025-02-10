@@ -2,12 +2,12 @@
 GET_REQUEST_START = "Отправка запроса GET /%s"
 GET_REQUEST_END = "Запрос GET /%s завершен: http_code=%s"
 GET_REQUEST_FAILED = "При выполнении запроса GET /%s возникла ошибка: exception=%s"
-GET_REQUEST_INFO = "request_params: query_params=%s, headers=%s"
+GET_REQUEST_INFO = "request_params: headers=%s"
 
 GET_BY_ID_REQUEST_START = "Отправка запроса GET /%s/%s"
 GET_BY_ID_REQUEST_END = "Запрос GET /%s/%s завершен: http_code=%s"
 GET_BY_ID_REQUEST_FAILED = "При выполнении запроса GET /%s/%s возникла ошибка: exception=%s"
-GET_BY_ID_REQUEST_INFO = "request_params: query_params=%s, headers=%s"
+GET_BY_ID_REQUEST_INFO = "request_params: headers=%s"
 
 POST_REQUEST_START = "Отправка запроса POST /%s"
 POST_REQUEST_END = "Запрос POST /%s завершен: http_code=%s"
@@ -24,4 +24,4 @@ DELETE_REQUEST_END = "Запрос DELETE /%s/%s завершен: http_code=%s"
 DELETE_REQUEST_FAILED = "При выполнении запроса DELETE /%s/%s возникла ошибка: exception=%s"
 DELETE_REQUEST_INFO = "request_params: headers=%s"
 
-RESPONSE_INFO = "response_data=%s"
+RESPONSE_SUCCESSFUL = "response_data=%s"

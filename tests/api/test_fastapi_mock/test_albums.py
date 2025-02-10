@@ -2,7 +2,6 @@ import pytest
 import responses
 import requests
 
-from tests.api.clients.api_client import ApiClient
 from tests.api.enums.http_code_enum import HttpCodeEnum
 
 
@@ -11,21 +10,18 @@ class TestAlbums:
 
     @responses.activate
     @pytest.mark.test_case_id("UT-T300")
-    def test_get_albums_list(self, mock_server, api_client: ApiClient) -> None:
-        # response = api_client.get_resources(path=self.base_path)
+    def test_get_albums_list(self, mock_server) -> None:
         response = requests.get(f"{self.base_url}/albums")
         assert response.status_code == HttpCodeEnum.NOT_FOUND.value
 
     @responses.activate
     @pytest.mark.test_case_id("UT-T301")
-    def test_create_comment(self, mock_server, api_client: ApiClient) -> None:
-        # response = api_client.get_resources(path=self.base_path)
+    def test_create_comment(self, mock_server) -> None:
         response = requests.post(f"{self.base_url}/comments")
         assert response.status_code == HttpCodeEnum.FORBIDDEN.value
 
     @responses.activate
     @pytest.mark.test_case_id("UT-T302")
-    def test_delete_comment_by_id(self, mock_server, api_client: ApiClient) -> None:
-        # response = api_client.get_resources(path=self.base_path)
+    def test_delete_comment_by_id(self, mock_server) -> None:
         response = requests.delete(f"{self.base_url}/comments/1")
         assert response.status_code == HttpCodeEnum.INTERNAL_SERVER_ERROR.value
