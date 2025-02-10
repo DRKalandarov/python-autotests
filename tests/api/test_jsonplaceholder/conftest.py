@@ -25,7 +25,7 @@ def comment():
     try:
         comment = CommentRequest(
             post_id=get_random_int(),
-            name=get_random_str(10),
+            name=get_random_str(),
             email=get_random_email_str(),
             body=get_random_str(30),
         )
@@ -39,7 +39,7 @@ def album():
     try:
         album = AlbumRequest(
             user_id=get_random_int(),
-            title=get_random_str(10),
+            title=get_random_str(),
         )
         return album.model_dump(by_alias=True)
     except Exception as e:

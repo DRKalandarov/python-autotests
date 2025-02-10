@@ -4,7 +4,7 @@ from faker import Faker
 fake = Faker()
 
 
-def get_random_str(str_len: int) -> str:
+def get_random_str(str_len: int = 10) -> str:
     return fake.text(max_nb_chars=str_len)
 
 

@@ -19,10 +19,10 @@ def get_comments() -> list[dict[str, Any]]:
     return mock_data
 
 
-@app.get(path="/comments/{id}", response_model=CommentResponse)
-def get_comment_by_id(id: int) -> dict[str, Any]:
+@app.get(path="/comments/{resource_id}", response_model=CommentResponse)
+def get_comment_by_id(resource_id: int) -> dict[str, Any]:
     for data in mock_data:
-        if data["id"] == id:
+        if data["id"] == resource_id:
             return data
     return {"status": "error: comment not found"}
 
@@ -33,12 +33,12 @@ def create_comment(data: CommentRequest) -> dict[str, Any]:
     return {"status": "created", "data": CommentResponse(id=3, **data)}
 
 
-@app.put(path="/comments/{id}")
-def update_comment(id: int, data: CommentRequest) -> dict[str, Any]:
+@app.put(path="/comments/{resource_id}")
+def update_comment(resource_id: int, data: CommentRequest) -> dict[str, Any]:
     data = data.model_dump()
-    return {"status": "updated", "data": CommentResponse(id=id, **data)}
+    return {"status": "updated", "data": CommentResponse(id=resource_id, **data)}
 
 
-@app.delete(path="/comments/{id}")
-def delete_comment(id: int) -> dict[str, Any]:
+@app.delete(path="/comments/{resource_id}")
+def delete_comment(resource_id: int) -> dict[str, Any]:
     return {"status": "deleted", "id": id}

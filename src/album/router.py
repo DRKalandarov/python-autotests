@@ -19,10 +19,10 @@ def get_albums() -> list[dict[str, Any]]:
     return mock_data
 
 
-@app.get(path="/albums/{id}", response_model=AlbumResponse)
-def get_album_by_id(id: int) -> dict[str, Any]:
+@app.get(path="/albums/{resource_id}", response_model=AlbumResponse)
+def get_album_by_id(resource_id: int) -> dict[str, Any]:
     for data in mock_data:
-        if data["id"] == id:
+        if data["id"] == resource_id:
             return data
     return {"status": "error: album not found"}
 
@@ -33,12 +33,12 @@ def create_album(data: AlbumRequest) -> dict[str, Any]:
     return {"status": "created", "data": AlbumResponse(id=3, **data)}
 
 
-@app.put(path="/albums/{id}")
-def update_album(id: int, data: AlbumRequest) -> dict[str, Any]:
+@app.put(path="/albums/{resource_id}")
+def update_album(resource_id: int, data: AlbumRequest) -> dict[str, Any]:
     data = data.model_dump()
-    return {"status": "updated", "data": AlbumResponse(id=id, **data)}
+    return {"status": "updated", "data": AlbumResponse(id=resource_id, **data)}
 
 
-@app.delete(path="/albums/{id}")
-def delete_album(id: int) -> dict[str, Any]:
-    return {"status": "deleted", "id": id}
+@app.delete(path="/albums/{resource_id}")
+def delete_album(resource_id: int) -> dict[str, Any]:
+    return {"status": "deleted", "id": resource_id}
