@@ -9,8 +9,15 @@ from typing import Any
 from src.album.schemas import AlbumResponse
 from src.comments.schemas import CommentResponse
 
-from tests.api.enums.http_code_enum import HttpCodeEnum
+from tests.api.constants.assert_custom_message_constants import (
+    HTTP_CODE_ERROR,
+    RESPONSE_BODY_LIST_LENGTH_ERROR,
+    RESPONSE_NOT_JSON_MESSAGE,
+    RESPONSE_BODY_NOT_EMPTY,
+    RESPONSE_BODY_IS_EMPTY,
+)
 from tests.api.constants.exclude_paths_constants import ALBUM_RESPONSE_EXCLUDE_PATHS, COMMENT_RESPONSE_EXCLUDE_PATHS
+from tests.api.enums.http_code_enum import HttpCodeEnum
 
 from utils.logger.logger import file_logger
 
@@ -30,103 +37,154 @@ def is_eql(actual: dict[str, Any], expected: dict[str, Any], exclude_paths: list
         return False
 
 
-def assert_get_albums_list_is_ok(response: Response, expected_response_data_len: int) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.OK.value
+def assert_http_code_is_ok(actual_http_code: int) -> None:
+    expected_http_code = HttpCodeEnum.OK.value
+    with allure.step("Проверить, что http-код = 200"):
+        assert actual_http_code == expected_http_code, HTTP_CODE_ERROR.format(actual_http_code, expected_http_code)
 
-    response_data = response.json()
-    with allure.step("Проверить структуру данных ответа"):
-        assert AlbumResponse(**response_data[0])
+
+def assert_http_code_is_created(actual_http_code: int) -> None:
+    expected_http_code = HttpCodeEnum.CREATED.value
+    with allure.step("Проверить, что http-код = 201"):
+        assert actual_http_code == expected_http_code, HTTP_CODE_ERROR.format(actual_http_code, expected_http_code)
+
+
+def assert_response_body_is_empty(response: Response) -> None:
+    try:
+        response_body = response.json()
+        with allure.step("Проверить, что тело ответа отсутствует"):
+            assert not response_body, RESPONSE_BODY_NOT_EMPTY
+    except ValueError:
+        assert False, RESPONSE_NOT_JSON_MESSAGE
+
+
+def assert_response_body_not_empty(response: Response) -> None:
+    try:
+        response_body = response.json()
+        with allure.step("Проверить, что тело ответа не пустое"):
+            assert response_body, RESPONSE_BODY_IS_EMPTY
+    except ValueError:
+        assert False, RESPONSE_NOT_JSON_MESSAGE
+
+
+def assert_response_body_list_length(actual_list_length: int, expected_list_length: int) -> None:
     with allure.step("Проверить кол-во элементов в ответе"):
-        assert len(response_data) == expected_response_data_len
+        assert actual_list_length == expected_list_length, RESPONSE_BODY_LIST_LENGTH_ERROR.format(
+            actual_list_length, expected_list_length
+        )
+
+
+def assert_get_albums_list_is_ok(response: Response, expected_response_body_length: int) -> None:
+    http_code = response.status_code
+    assert_http_code_is_ok(http_code)
+
+    assert_response_body_not_empty(response)
+
+    response_body = response.json()
+    with allure.step("Проверить структуру данных ответа"):
+        assert AlbumResponse(**response_body[0])
+
+    response_body_length = len(response_body)
+    assert_response_body_list_length(response_body_length, expected_response_body_length)
 
 
 def assert_get_album_by_id_is_ok(response: Response) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.OK.value
+    http_code = response.status_code
+    assert_http_code_is_ok(http_code)
 
-    response_data = response.json()
+    assert_response_body_not_empty(response)
+
+    response_body = response.json()
     with allure.step("Проверить структуру данных ответа"):
-        assert AlbumResponse(**response_data)
+        assert AlbumResponse(**response_body)
 
 
 def assert_album_is_created(response: Response, album: dict[str, Any]) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.CREATED.value
+    http_code = response.status_code
+    assert_http_code_is_created(http_code)
 
-    response_data = response.json()
+    assert_response_body_not_empty(response)
+
+    response_body = response.json()
     with allure.step("Проверить структуру данных ответа"):
-        assert AlbumResponse(**response_data)
+        assert AlbumResponse(**response_body)
     with allure.step("Сравнить данные из тела ответа и из тела запроса"):
-        assert is_eql(response_data, album, ALBUM_RESPONSE_EXCLUDE_PATHS)
+        assert is_eql(response_body, album, ALBUM_RESPONSE_EXCLUDE_PATHS)
 
 
 def assert_album_is_updated(response: Response, album: dict[str, Any]) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.OK.value
+    http_code = response.status_code
+    assert_http_code_is_ok(http_code)
 
-    response_data = response.json()
+    assert_response_body_not_empty(response)
+
+    response_body = response.json()
     with allure.step("Проверить структуру данных ответа"):
-        assert AlbumResponse(**response_data)
+        assert AlbumResponse(**response_body)
     with allure.step("Сравнить данные из тела ответа и из тела запроса"):
-        assert is_eql(response_data, album, ALBUM_RESPONSE_EXCLUDE_PATHS)
+        assert is_eql(response_body, album, ALBUM_RESPONSE_EXCLUDE_PATHS)
 
 
 def assert_album_is_deleted(response: Response) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.OK.value
+    http_code = response.status_code
+    assert_http_code_is_ok(http_code)
 
-    response_data = response.json()
-    with allure.step("Проверить, что тело ответа отсутствует"):
-        assert not response_data
+    assert_response_body_is_empty(response)
 
 
-def assert_get_comments_list_is_ok(response: Response, expected_response_data_len: int) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.OK.value
+def assert_get_comments_list_is_ok(response: Response, expected_response_body_length: int) -> None:
+    http_code = response.status_code
+    assert_http_code_is_ok(http_code)
 
-    response_data = response.json()
+    assert_response_body_not_empty(response)
+
+    response_body = response.json()
     with allure.step("Проверить структуру данных"):
-        assert CommentResponse(**response_data[0])
-    with allure.step("Проверить кол-во элементов в ответе"):
-        assert len(response_data) == expected_response_data_len
+        assert CommentResponse(**response_body[0])
+
+    response_body_length = len(response_body)
+    assert_response_body_list_length(response_body_length, expected_response_body_length)
 
 
 def assert_get_comment_by_id_is_ok(response: Response) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.OK.value
+    http_code = response.status_code
+    assert_http_code_is_ok(http_code)
 
-    response_data = response.json()
+    assert_response_body_not_empty(response)
+
+    response_body = response.json()
     with allure.step("Проверить структуру данных ответа"):
-        assert CommentResponse(**response_data)
+        assert CommentResponse(**response_body)
 
 
 def assert_comment_is_created(response: Response, comment: dict[str, Any]) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.CREATED.value
+    http_code = response.status_code
+    assert_http_code_is_created(http_code)
 
-    response_data = response.json()
+    assert_response_body_not_empty(response)
+
+    response_body = response.json()
     with allure.step("Проверить структуру данных ответа"):
-        assert CommentResponse(**response_data)
+        assert CommentResponse(**response_body)
     with allure.step("Сравнить данные из тела ответа и из тела запроса"):
-        assert is_eql(response_data, comment, COMMENT_RESPONSE_EXCLUDE_PATHS)
+        assert is_eql(response_body, comment, COMMENT_RESPONSE_EXCLUDE_PATHS)
 
 
 def assert_comment_is_updated(response: Response, comment: dict[str, Any]) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.OK.value
+    http_code = response.status_code
+    assert_http_code_is_ok(http_code)
 
-    response_data = response.json()
+    assert_response_body_not_empty(response)
+
+    response_body = response.json()
     with allure.step("Проверить структуру данных ответа"):
-        assert CommentResponse(**response_data)
+        assert CommentResponse(**response_body)
     with allure.step("Сравнить данные из тела ответа и из тела запроса"):
-        assert is_eql(response_data, comment, COMMENT_RESPONSE_EXCLUDE_PATHS)
+        assert is_eql(response_body, comment, COMMENT_RESPONSE_EXCLUDE_PATHS)
 
 
 def assert_comment_is_deleted(response: Response) -> None:
-    with allure.step("Проверить http-код ответа"):
-        assert response.status_code == HttpCodeEnum.OK.value
+    http_code = response.status_code
+    assert_http_code_is_ok(http_code)
 
-    response_data = response.json()
-    with allure.step("Проверить, что тело ответа отсутствует"):
-        assert not response_data
+    assert_response_body_is_empty(response)

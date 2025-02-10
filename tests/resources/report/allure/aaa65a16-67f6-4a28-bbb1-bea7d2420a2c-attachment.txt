@@ -1,3 +1,0 @@
-INFO     tests.api.clients.api_client:api_client.py:103 Отправка запроса DELETE /comments/100
-INFO     httpx:_client.py:1025 HTTP Request: DELETE https://jsonplaceholder.typicode.com/comments/100 "HTTP/1.1 200 OK"
-INFO     tests.api.clients.api_client:api_client.py:109 Запрос DELETE /comments/100 завершен: http_code=200

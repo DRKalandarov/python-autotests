@@ -1,0 +1,5 @@
+HTTP_CODE_ERROR = "Ожидаемый http-код - {}, фактический - {}"
+RESPONSE_BODY_LIST_LENGTH_ERROR = "Ожидалось {} элементов в ответе, но получено {}"
+RESPONSE_NOT_JSON_MESSAGE = "Ответ не является корректным JSON"
+RESPONSE_BODY_NOT_EMPTY = "Ожидалось, что тело ответа будет отсутствовать"
+RESPONSE_BODY_IS_EMPTY = "Тело ответа отсутствует"

@@ -1,5 +1,0 @@
-INFO     tests.api.clients.api_client:api_client.py:73 Отправка запроса POST /comments
-INFO     httpx:_client.py:1025 HTTP Request: POST https://jsonplaceholder.typicode.com/comments "HTTP/1.1 201 Created"
-INFO     tests.api.clients.api_client:api_client.py:79 Запрос POST /comments завершен: http_code=201
-INFO     utils.helpers.helpers:helpers.py:24 Начало сравнения фактического словаря и ожидаемого
-INFO     utils.helpers.helpers:helpers.py:26 Словари одинаковые

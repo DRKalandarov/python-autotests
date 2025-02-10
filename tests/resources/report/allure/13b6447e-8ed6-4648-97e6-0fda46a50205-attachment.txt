@@ -1,3 +1,0 @@
-INFO     tests.api.clients.api_client:api_client.py:59 Отправка запроса GET /albums/1
-INFO     httpx:_client.py:1025 HTTP Request: GET https://jsonplaceholder.typicode.com/albums/1 "HTTP/1.1 200 OK"
-INFO     tests.api.clients.api_client:api_client.py:65 Запрос GET /albums/1 завершен: http_code=200
