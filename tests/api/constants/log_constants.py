@@ -24,4 +24,4 @@ DELETE_REQUEST_END = "Запрос DELETE /%s/%s завершен: http_code=%s"
 DELETE_REQUEST_FAILED = "При выполнении запроса DELETE /%s/%s возникла ошибка: exception=%s"
 DELETE_REQUEST_INFO = "request_params: headers=%s"
 
-RESPONSE_SUCCESSFUL = "response_data=%s"
+RESPONSE_DATA = "response_data=%s"

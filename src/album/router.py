@@ -1,8 +1,7 @@
 from typing import Any
 from fastapi import FastAPI
 
-from schemas import AlbumRequest
-from schemas import AlbumResponse
+from schemas import AlbumRequest, AlbumResponse
 
 
 app = FastAPI()

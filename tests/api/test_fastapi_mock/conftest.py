@@ -15,21 +15,21 @@ log = file_logger(__name__)
 
 @pytest.fixture(scope="session")
 def mock_server(env_config):
-    url = env_config["LOCALHOST"]
+    host = env_config["LOCALHOST"]
 
     responses.add(
         method=responses.GET,
-        url=f"{url}/albums",
+        url=f"{host}/albums",
         status=404,
     )
     responses.add(
         method=responses.POST,
-        url=f"{url}/comments",
+        url=f"{host}/comments",
         status=403,
     )
     responses.add(
         method=responses.DELETE,
-        url=f"{url}/comments/1",
+        url=f"{host}/comments/1",
         status=500,
     )
 
