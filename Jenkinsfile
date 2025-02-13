@@ -62,8 +62,8 @@ pipeline {
                         properties: [],
                         results: [[path: 'tests/resources/report/allure/results']],
                         report: 'tests/resources/report/allure/report'
-                    }
                 }
+            }
             stage('Publish HTML Report') {
                 steps {
                     // Публикация отчета pytest_html
