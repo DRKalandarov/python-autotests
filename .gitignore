@@ -2,7 +2,7 @@
 *.env*
 *.log
 
-tests/resources/report/allure/results
+tests/resources
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
