@@ -54,26 +54,24 @@ pipeline {
 
     post {
         always {
-            steps {
-                // Публикация отчета Allure
-                allure includeProperties: true,
-                    jdk: '',
-                    properties: [],
-                    results: [[path: 'tests/resources/report/allure/results']],
-                    report: 'tests/resources/report/allure/report'
-            }
-            steps {
-                // Публикация отчета pytest_html
-                publishHTML([
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false,
-                    keepAll: true,
-                    reportDir: 'tests/resources/report/pytest_html',
-                    reportFiles: 'report.html',
-                    reportName: 'Pytest HTML Report',
-                    reportTitles: ''
-                ])
-            }
+            // Публикация отчета Allure
+            allure includeProperties: true,
+                jdk: '',
+                properties: [],
+                results: [[path: 'tests/resources/report/allure/results']],
+                report: 'tests/resources/report/allure/report'
+
+            // Публикация отчета pytest_html
+            publishHTML([
+                alwaysLinkToLastBuild: true,
+                allowMissing: false,
+                keepAll: true,
+                reportDir: 'tests/resources/report/pytest_html',
+                reportFiles: 'report.html',
+                reportName: 'Pytest HTML Report',
+                reportTitles: ''
+            ])
+
             echo 'Pipeline завершен.'
         }
         success {
