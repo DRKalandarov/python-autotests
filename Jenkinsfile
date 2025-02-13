@@ -3,10 +3,15 @@ pipeline {
 
     environment {
         VENV_DIR = '.venv'
-//         ENV_FILE = credentials('554ec798-c033-48ed-861c-e2e3b0206493')
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                // Очистка рабочего пространства
+                cleanWs()
+            }
+        }
         stage('Checkout branch') {
             steps {
                 git branch: "${BRANCH_NAME}", url: 'https://github.com/Calandarov/python-autotests.git'
@@ -23,22 +28,14 @@ pipeline {
                 """
             }
         }
-        stage('Cleanup') {
-            steps {
-                script {
-                    sh 'rm -f .env* .env'
-                }
-            }
-        }
         stage('Load .env') {
             steps {
                 script {
                     // Создаем файл .env
-                    def envContent = """
-                    JSONPLACEHOLDER_HOST='https://jsonplaceholder.typicode.com'
-                    LOCALHOST=${credentials('LOCALHOST')}
-                    """
-                    writeFile file: '.env.local', text: envContent
+                    withCredentials([file(credentialsId: "${ENV_NAME}", variable: 'ENV')]) {
+                        def envContent = readFile(ENV)
+                        writeFile file: '.env', text: envContent
+                    }
                 }
             }
         }
@@ -49,34 +46,34 @@ pipeline {
                     . ${VENV_DIR}/bin/activate
                     mkdir -p "tests/resources/logs"
                     touch "tests/resources/logs/debug.log"
-                    pytest tests/api/test_jsonplaceholder
+                    pytest tests/api/test_jsonplaceholder --env=.env
                 """
-            }
-        }
-        stage('Generate Allure Report') {
-            steps {
-                // Генерация HTML-отчета Allure
-                sh 'allure generate tests/resources/report/allure/results -o tests/resources/report/allure/report --clean'
             }
         }
         stage('Publish Allure Report') {
             steps {
                 // Публикация отчета Allure
-                allure includeProperties: false, jdk: '', results: [[path: 'tests/resources/report/allure/report']]
+                allure includeProperties: true,
+                    jdk: '',
+                    properties: [],
+                    results: [[path: 'tests/resources/report/allure/results']],
+                    report: 'tests/resources/report/allure/report'
             }
         }
-//         stage('Publish HTML Report') {
-//             steps {
-//                 // Публикация отчета pytest_html
-//                 publishHTML(target: [
-//                     reportName: 'Test Report',
-//                     reportDir: 'tests/resources/report/pytest_html',
-//                     reportFiles: 'report.html',
-//                     alwaysLinkToLastBuild: true,
-//                     keepAll: true
-//                 ])
-//             }
-//         }
+        stage('Publish HTML Report') {
+            steps {
+                // Публикация отчета pytest_html
+                publishHTML([
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false,
+                    keepAll: true,
+                    reportDir: 'tests/resources/report/pytest_html',
+                    reportFiles: 'report.html',
+                    reportName: 'Pytest HTML Report',
+                    reportTitles: ''
+                ])
+            }
+        }
     }
 
     post {
