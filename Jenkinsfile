@@ -50,34 +50,34 @@ pipeline {
                 """
             }
         }
-        stage('Publish Allure Report') {
-            steps {
-                // Публикация отчета Allure
-                allure includeProperties: true,
-                    jdk: '',
-                    properties: [],
-                    results: [[path: 'tests/resources/report/allure/results']],
-                    report: 'tests/resources/report/allure/report'
-            }
-        }
-        stage('Publish HTML Report') {
-            steps {
-                // Публикация отчета pytest_html
-                publishHTML([
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false,
-                    keepAll: true,
-                    reportDir: 'tests/resources/report/pytest_html',
-                    reportFiles: 'report.html',
-                    reportName: 'Pytest HTML Report',
-                    reportTitles: ''
-                ])
-            }
-        }
     }
 
     post {
         always {
+            stage('Publish Allure Report') {
+                steps {
+                    // Публикация отчета Allure
+                    allure includeProperties: true,
+                        jdk: '',
+                        properties: [],
+                        results: [[path: 'tests/resources/report/allure/results']],
+                        report: 'tests/resources/report/allure/report'
+                    }
+                }
+            stage('Publish HTML Report') {
+                steps {
+                    // Публикация отчета pytest_html
+                    publishHTML([
+                        alwaysLinkToLastBuild: true,
+                        allowMissing: false,
+                        keepAll: true,
+                        reportDir: 'tests/resources/report/pytest_html',
+                        reportFiles: 'report.html',
+                        reportName: 'Pytest HTML Report',
+                        reportTitles: ''
+                    ])
+                }
+            }
             echo 'Pipeline завершен.'
         }
         success {
