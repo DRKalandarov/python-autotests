@@ -56,17 +56,13 @@ pipeline {
         stage('Generate Allure Report') {
             steps {
                 // Генерация HTML-отчета Allure
-                sh 'allure generate tests/resources/report/allure/results -o tests/resources/report/allure --clean'
+                sh 'allure generate tests/resources/report/allure/results -o tests/resources/report/allure/report --clean'
             }
         }
         stage('Publish Allure Report') {
             steps {
                 // Публикация отчета Allure
-                allure([
-                    reportDir: 'tests/resources/report/allure',
-                    reportFiles: 'index.html',
-                    reportName: 'Allure Report'
-                ])
+                allure includeProperties: false, jdk: '', results: [[path: 'tests/resources/report/allure/report']]
             }
         }
 //         stage('Publish HTML Report') {
