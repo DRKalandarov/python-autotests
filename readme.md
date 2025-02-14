@@ -15,7 +15,7 @@ docker stop jenkins
 docker rm jenkins
 ```
 ---
-Запуск тестов:
+Генерация allure отчета:
 ```commandline
-pytest tests/api/test_jsonplaceholder/
+allure generate tests/resources/report/allure/results -o tests/resources/report/allure/report --clean
 ```
