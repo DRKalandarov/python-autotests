@@ -14,7 +14,7 @@ log = file_logger(__name__)
 
 
 @allure.title("Инициализация моков")
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def mock_server(env_config):
     host = env_config["LOCALHOST"]
 
