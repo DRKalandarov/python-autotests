@@ -1,18 +1,6 @@
-Создание Docker-образа:
+Сборка и запуск контейнеров в фоновом режиме:
 ```commandline
-docker build -t my-jenkins-python .
-```
-Запуск контейнера:
-```commandline
-docker run -d --name jenkins -p 8080:8080 -p 50000:50000 -v ~/jenkins_home:/var/jenkins_home my-jenkins-python
-```
-Остановка контейнера:
-```commandline
-docker stop jenkins
-```
-Удаление контейнера после остановки:
-```commandline
-docker rm jenkins
+docker-compose up -d
 ```
 ---
 Генерация allure отчета:
