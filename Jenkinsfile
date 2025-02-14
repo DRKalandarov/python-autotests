@@ -46,7 +46,7 @@ pipeline {
                     . ${VENV_DIR}/bin/activate
                     mkdir -p "tests/resources/logs"
                     touch "tests/resources/logs/debug.log"
-                    pytest tests/api/test_jsonplaceholder --env=.env
+                    pytest tests/api --env=.env
                 """
             }
         }
