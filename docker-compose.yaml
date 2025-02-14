@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: docker/fastapi/Dockerfile
+    ports:
+      - "8000:8000"
+
+  jenkins:
+    build:
+      context: ./docker/jenkins
+    ports:
+      - "8080:8080"
