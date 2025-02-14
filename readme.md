@@ -17,5 +17,5 @@ docker rm jenkins
 ---
 Генерация allure отчета:
 ```commandline
-allure generate tests/resources/report/allure/results -o tests/resources/report/allure/report --clean
+allure generate ./tests/resources/report/allure/results --clean -o ./tests/resources/report/allure/report
 ```
