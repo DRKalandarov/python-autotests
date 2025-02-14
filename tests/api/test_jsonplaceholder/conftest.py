@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 from src.album.schemas import AlbumRequest
@@ -12,6 +13,7 @@ from utils.logger.logger import file_logger
 log = file_logger(__name__)
 
 
+@allure.title("Инициализация API клиента")
 @pytest.fixture(scope="session")
 def api_client(env_config):
     try:
@@ -20,6 +22,7 @@ def api_client(env_config):
         log.error(e, exc_info=True)
 
 
+@allure.title("Инициализация тестовых данных comment")
 @pytest.fixture(scope="function")
 def comment():
     try:
@@ -34,6 +37,7 @@ def comment():
         log.error(e, exc_info=True)
 
 
+@allure.title("Инициализация тестовых данных album")
 @pytest.fixture(scope="function")
 def album():
     try:

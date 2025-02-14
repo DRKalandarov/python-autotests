@@ -1,5 +1,5 @@
+import allure
 import pytest
-
 import responses
 
 from src.album.schemas import AlbumRequest
@@ -13,6 +13,7 @@ from utils.logger.logger import file_logger
 log = file_logger(__name__)
 
 
+@allure.title("Инициализация моков")
 @pytest.fixture(scope="session")
 def mock_server(env_config):
     host = env_config["LOCALHOST"]
@@ -34,6 +35,7 @@ def mock_server(env_config):
     )
 
 
+@allure.title("Инициализация тестовых данных comment")
 @pytest.fixture(scope="function")
 def comment():
     try:
@@ -48,6 +50,7 @@ def comment():
         log.error(e, exc_info=True)
 
 
+@allure.title("Инициализация тестовых данных album")
 @pytest.fixture(scope="function")
 def album():
     try:

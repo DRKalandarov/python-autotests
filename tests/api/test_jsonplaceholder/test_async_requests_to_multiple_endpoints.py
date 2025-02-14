@@ -1,3 +1,4 @@
+import allure
 import asyncio
 import httpx
 import pytest
@@ -5,6 +6,7 @@ import pytest
 from tests.api.enums.http_code_enum import HttpCodeEnum
 
 
+@allure.epic("Асинхронные запросы")
 class TestAsyncRequestToMultipleEndpoints:
     urls = [
         "https://jsonplaceholder.typicode.com/albums",
@@ -12,6 +14,7 @@ class TestAsyncRequestToMultipleEndpoints:
         "https://jsonplaceholder.typicode.com/posts",
     ]
 
+    @allure.feature("Список всех сущностей")
     @pytest.mark.asyncio
     @pytest.mark.test_case_id("UT-T400")
     async def test_get_resources_list(self) -> None:

@@ -1,5 +1,4 @@
 import allure
-
 import os
 
 import pytest
@@ -24,8 +23,8 @@ def pytest_configure(config):
     del config.stash[metadata_key]["JAVA_HOME"]
 
 
-@pytest.fixture(scope="session")
 @allure.title("Загрузка конфигурационного файла")
+@pytest.fixture(scope="session")
 def env_config(pytestconfig):
     env = pytestconfig.getoption("--env")
     if not os.path.exists(env):
