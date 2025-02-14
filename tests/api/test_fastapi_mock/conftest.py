@@ -20,12 +20,12 @@ def mock_server(env_config):
 
     responses.add(
         method=responses.GET,
-        url=f"{host}/albums",
+        url=f"{host}/albums/",
         status=404,
     )
     responses.add(
         method=responses.POST,
-        url=f"{host}/comments",
+        url=f"{host}/comments/",
         status=403,
     )
     responses.add(

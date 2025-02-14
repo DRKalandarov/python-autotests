@@ -1,10 +1,10 @@
 from typing import Any
-from fastapi import FastAPI
+from fastapi import APIRouter
 
-from schemas import AlbumRequest, AlbumResponse
+from src.album.schemas import AlbumRequest, AlbumResponse
 
 
-app = FastAPI()
+router = APIRouter()
 
 
 mock_data = [
@@ -13,12 +13,12 @@ mock_data = [
 ]
 
 
-@app.get(path="/albums", response_model=list[AlbumResponse])
+@router.get(path="/", response_model=list[AlbumResponse])
 def get_albums() -> list[dict[str, Any]]:
     return mock_data
 
 
-@app.get(path="/albums/{resource_id}", response_model=AlbumResponse)
+@router.get(path="/{resource_id}", response_model=AlbumResponse)
 def get_album_by_id(resource_id: int) -> dict[str, Any]:
     for data in mock_data:
         if data["id"] == resource_id:
@@ -26,18 +26,18 @@ def get_album_by_id(resource_id: int) -> dict[str, Any]:
     return {"status": "error: album not found"}
 
 
-@app.post(path="/albums")
+@router.post(path="/")
 def create_album(data: AlbumRequest) -> dict[str, Any]:
     data = data.model_dump()
     return {"status": "created", "data": AlbumResponse(id=3, **data)}
 
 
-@app.put(path="/albums/{resource_id}")
+@router.put(path="/{resource_id}")
 def update_album(resource_id: int, data: AlbumRequest) -> dict[str, Any]:
     data = data.model_dump()
     return {"status": "updated", "data": AlbumResponse(id=resource_id, **data)}
 
 
-@app.delete(path="/albums/{resource_id}")
+@router.delete(path="/{resource_id}")
 def delete_album(resource_id: int) -> dict[str, Any]:
     return {"status": "deleted", "id": resource_id}

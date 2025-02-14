@@ -1,10 +1,10 @@
 from typing import Any
-from fastapi import FastAPI
+from fastapi import APIRouter
 
-from schemas import CommentRequest, CommentResponse
+from src.comments.schemas import CommentRequest, CommentResponse
 
 
-app = FastAPI()
+router = APIRouter()
 
 
 mock_data = [
@@ -13,12 +13,12 @@ mock_data = [
 ]
 
 
-@app.get(path="/comments", response_model=list[CommentResponse])
+@router.get(path="/", response_model=list[CommentResponse])
 def get_comments() -> list[dict[str, Any]]:
     return mock_data
 
 
-@app.get(path="/comments/{resource_id}", response_model=CommentResponse)
+@router.get(path="/{resource_id}", response_model=CommentResponse)
 def get_comment_by_id(resource_id: int) -> dict[str, Any]:
     for data in mock_data:
         if data["id"] == resource_id:
@@ -26,18 +26,18 @@ def get_comment_by_id(resource_id: int) -> dict[str, Any]:
     return {"status": "error: comment not found"}
 
 
-@app.post(path="/comments")
+@router.post(path="/")
 def create_comment(data: CommentRequest) -> dict[str, Any]:
     data = data.model_dump()
     return {"status": "created", "data": CommentResponse(id=3, **data)}
 
 
-@app.put(path="/comments/{resource_id}")
+@router.put(path="/{resource_id}")
 def update_comment(resource_id: int, data: CommentRequest) -> dict[str, Any]:
     data = data.model_dump()
     return {"status": "updated", "data": CommentResponse(id=resource_id, **data)}
 
 
-@app.delete(path="/comments/{resource_id}")
+@router.delete(path="/{resource_id}")
 def delete_comment(resource_id: int) -> dict[str, Any]:
     return {"status": "deleted", "id": id}
