@@ -49,6 +49,24 @@ def assert_http_code_is_created(actual_http_code: int) -> None:
         assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
 
 
+def assert_http_code_is_forbidden(actual_http_code: int) -> None:
+    expected_http_code = HttpCodeEnum.FORBIDDEN.value
+    with allure.step("Проверить, что http-код = 403"):
+        assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
+
+
+def assert_http_code_is_not_found(actual_http_code: int) -> None:
+    expected_http_code = HttpCodeEnum.NOT_FOUND.value
+    with allure.step("Проверить, что http-код = 404"):
+        assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
+
+
+def assert_http_code_is_internal_server_error(actual_http_code: int) -> None:
+    expected_http_code = HttpCodeEnum.INTERNAL_SERVER_ERROR.value
+    with allure.step("Проверить, что http-код = 500"):
+        assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
+
+
 def assert_response_body_is_empty(response: Response) -> None:
     try:
         response_body = response.json()
