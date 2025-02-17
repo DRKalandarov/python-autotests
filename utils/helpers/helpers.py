@@ -10,11 +10,11 @@ from src.album.schemas import AlbumResponse
 from src.comments.schemas import CommentResponse
 
 from tests.api.constants.assert_custom_message_constants import (
-    HTTP_CODE_ERROR,
-    RESPONSE_BODY_LIST_LENGTH_ERROR,
-    RESPONSE_NOT_JSON_MESSAGE,
-    RESPONSE_BODY_NOT_EMPTY,
-    RESPONSE_BODY_IS_EMPTY,
+    HTTP_CODE_MSG_ERROR,
+    RESPONSE_BODY_LIST_LENGTH_MSG_ERROR,
+    RESPONSE_NOT_JSON_MSG_ERROR,
+    RESPONSE_BODY_NOT_EMPTY_MSG_ERROR,
+    RESPONSE_BODY_IS_EMPTY_MSG_ERROR,
 )
 from tests.api.constants.exclude_paths_constants import ALBUM_RESPONSE_EXCLUDE_PATHS, COMMENT_RESPONSE_EXCLUDE_PATHS
 from tests.api.enums.http_code_enum import HttpCodeEnum
@@ -40,36 +40,36 @@ def is_eql(actual: dict[str, Any], expected: dict[str, Any], exclude_paths: list
 def assert_http_code_is_ok(actual_http_code: int) -> None:
     expected_http_code = HttpCodeEnum.OK.value
     with allure.step("Проверить, что http-код = 200"):
-        assert actual_http_code == expected_http_code, HTTP_CODE_ERROR.format(actual_http_code, expected_http_code)
+        assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
 
 
 def assert_http_code_is_created(actual_http_code: int) -> None:
     expected_http_code = HttpCodeEnum.CREATED.value
     with allure.step("Проверить, что http-код = 201"):
-        assert actual_http_code == expected_http_code, HTTP_CODE_ERROR.format(actual_http_code, expected_http_code)
+        assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
 
 
 def assert_response_body_is_empty(response: Response) -> None:
     try:
         response_body = response.json()
         with allure.step("Проверить, что тело ответа отсутствует"):
-            assert not response_body, RESPONSE_BODY_NOT_EMPTY
+            assert not response_body, RESPONSE_BODY_NOT_EMPTY_MSG_ERROR
     except ValueError:
-        assert False, RESPONSE_NOT_JSON_MESSAGE
+        assert False, RESPONSE_NOT_JSON_MSG_ERROR
 
 
 def assert_response_body_not_empty(response: Response) -> None:
     try:
         response_body = response.json()
         with allure.step("Проверить, что тело ответа не пустое"):
-            assert response_body, RESPONSE_BODY_IS_EMPTY
+            assert response_body, RESPONSE_BODY_IS_EMPTY_MSG_ERROR
     except ValueError:
-        assert False, RESPONSE_NOT_JSON_MESSAGE
+        assert False, RESPONSE_NOT_JSON_MSG_ERROR
 
 
 def assert_response_body_list_length(actual_list_length: int, expected_list_length: int) -> None:
     with allure.step("Проверить кол-во элементов в ответе"):
-        assert actual_list_length == expected_list_length, RESPONSE_BODY_LIST_LENGTH_ERROR.format(
+        assert actual_list_length == expected_list_length, RESPONSE_BODY_LIST_LENGTH_MSG_ERROR.format(
             actual_list_length, expected_list_length
         )
 
