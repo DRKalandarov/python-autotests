@@ -2,7 +2,6 @@ import allure
 import pytest
 import responses
 
-from src.album.schemas import AlbumRequest
 from src.comments.schemas import CommentRequest
 
 from tests.api.generators.random_data_generator import get_random_str, get_random_int, get_random_email_str
@@ -46,18 +45,5 @@ def comment():
             body=get_random_str(30),
         )
         return comment.model_dump(by_alias=True)
-    except Exception as e:
-        log.error(e, exc_info=True)
-
-
-@allure.title("Инициализация тестовых данных album")
-@pytest.fixture(scope="function")
-def album():
-    try:
-        album = AlbumRequest(
-            user_id=get_random_int(),
-            title=get_random_str(),
-        )
-        return album.model_dump(by_alias=True)
     except Exception as e:
         log.error(e, exc_info=True)
