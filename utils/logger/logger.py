@@ -3,10 +3,10 @@ import datetime
 import logging
 import logging.handlers
 
-from pythonjsonlogger import jsonlogger
+from pythonjsonlogger import json
 
 
-class CustomJsonFormatter(jsonlogger.JsonFormatter):
+class CustomJsonFormatter(json.JsonFormatter):
     def add_fields(self, log_record, record, message_dict):
         super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
         if not log_record.get("timestamp"):
