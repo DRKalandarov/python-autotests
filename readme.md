@@ -5,7 +5,7 @@
 ```commandline
 docker-compose up -d
 ```
-Jenkins будет доступен по адресу `http://localhost:8000`, сервер на FastAPI - `http://localhost:8000`
+Jenkins будет доступен по адресу `http://localhost:8080`, сервер на FastAPI - `http://localhost:8000`
 
 #### Первоначальная настройка Jenkins.
 
