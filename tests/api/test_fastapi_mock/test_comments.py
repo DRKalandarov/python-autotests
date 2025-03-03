@@ -5,7 +5,7 @@ import requests
 
 from typing import Any
 
-from utils.helpers.helpers import assert_http_code_is_forbidden, assert_http_code_is_internal_server_error
+from utils.helpers import assert_http_code_is_403, assert_http_code_is_500
 
 
 @allure.epic("Сущность comments")
@@ -19,7 +19,7 @@ class TestComments:
         response = requests.post(url=f"{self.base_url}/", json=comment)
 
         http_code = response.status_code
-        assert_http_code_is_forbidden(http_code)
+        assert_http_code_is_403(http_code)
 
     @allure.feature("Мок удаления сущности по id")
     @responses.activate
@@ -29,4 +29,4 @@ class TestComments:
         response = requests.delete(f"{self.base_url}/{resource_id}")
 
         http_code = response.status_code
-        assert_http_code_is_internal_server_error(http_code)
+        assert_http_code_is_500(http_code)

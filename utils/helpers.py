@@ -19,7 +19,7 @@ from tests.api.constants.assert_custom_message_constants import (
 from tests.api.constants.exclude_paths_constants import ALBUM_RESPONSE_EXCLUDE_PATHS, COMMENT_RESPONSE_EXCLUDE_PATHS
 from tests.api.enums.http_code_enum import HttpCodeEnum
 
-from utils.logger.logger import file_logger
+from utils.logger import file_logger
 
 
 log = file_logger(__name__)
@@ -37,31 +37,31 @@ def is_eql(actual: dict[str, Any], expected: dict[str, Any], exclude_paths: list
         return False
 
 
-def assert_http_code_is_ok(actual_http_code: int) -> None:
+def assert_http_code_is_200(actual_http_code: int) -> None:
     expected_http_code = HttpCodeEnum.OK.value
     with allure.step("Проверить, что http-код = 200"):
         assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
 
 
-def assert_http_code_is_created(actual_http_code: int) -> None:
+def assert_http_code_is_201(actual_http_code: int) -> None:
     expected_http_code = HttpCodeEnum.CREATED.value
     with allure.step("Проверить, что http-код = 201"):
         assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
 
 
-def assert_http_code_is_forbidden(actual_http_code: int) -> None:
+def assert_http_code_is_403(actual_http_code: int) -> None:
     expected_http_code = HttpCodeEnum.FORBIDDEN.value
     with allure.step("Проверить, что http-код = 403"):
         assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
 
 
-def assert_http_code_is_not_found(actual_http_code: int) -> None:
+def assert_http_code_is_404(actual_http_code: int) -> None:
     expected_http_code = HttpCodeEnum.NOT_FOUND.value
     with allure.step("Проверить, что http-код = 404"):
         assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
 
 
-def assert_http_code_is_internal_server_error(actual_http_code: int) -> None:
+def assert_http_code_is_500(actual_http_code: int) -> None:
     expected_http_code = HttpCodeEnum.INTERNAL_SERVER_ERROR.value
     with allure.step("Проверить, что http-код = 500"):
         assert actual_http_code == expected_http_code, HTTP_CODE_MSG_ERROR.format(actual_http_code, expected_http_code)
@@ -94,7 +94,7 @@ def assert_response_body_list_length(actual_list_length: int, expected_list_leng
 
 def assert_get_albums_list_is_ok(response: Response, expected_response_body_length: int) -> None:
     http_code = response.status_code
-    assert_http_code_is_ok(http_code)
+    assert_http_code_is_200(http_code)
 
     assert_response_body_not_empty(response)
 
@@ -108,7 +108,7 @@ def assert_get_albums_list_is_ok(response: Response, expected_response_body_leng
 
 def assert_get_album_by_id_is_ok(response: Response) -> None:
     http_code = response.status_code
-    assert_http_code_is_ok(http_code)
+    assert_http_code_is_200(http_code)
 
     assert_response_body_not_empty(response)
 
@@ -119,7 +119,7 @@ def assert_get_album_by_id_is_ok(response: Response) -> None:
 
 def assert_album_is_created(response: Response, album: dict[str, Any]) -> None:
     http_code = response.status_code
-    assert_http_code_is_created(http_code)
+    assert_http_code_is_201(http_code)
 
     assert_response_body_not_empty(response)
 
@@ -132,7 +132,7 @@ def assert_album_is_created(response: Response, album: dict[str, Any]) -> None:
 
 def assert_album_is_updated(response: Response, album: dict[str, Any]) -> None:
     http_code = response.status_code
-    assert_http_code_is_ok(http_code)
+    assert_http_code_is_200(http_code)
 
     assert_response_body_not_empty(response)
 
@@ -145,14 +145,14 @@ def assert_album_is_updated(response: Response, album: dict[str, Any]) -> None:
 
 def assert_album_is_deleted(response: Response) -> None:
     http_code = response.status_code
-    assert_http_code_is_ok(http_code)
+    assert_http_code_is_200(http_code)
 
     assert_response_body_is_empty(response)
 
 
 def assert_get_comments_list_is_ok(response: Response, expected_response_body_length: int) -> None:
     http_code = response.status_code
-    assert_http_code_is_ok(http_code)
+    assert_http_code_is_200(http_code)
 
     assert_response_body_not_empty(response)
 
@@ -166,7 +166,7 @@ def assert_get_comments_list_is_ok(response: Response, expected_response_body_le
 
 def assert_get_comment_by_id_is_ok(response: Response) -> None:
     http_code = response.status_code
-    assert_http_code_is_ok(http_code)
+    assert_http_code_is_200(http_code)
 
     assert_response_body_not_empty(response)
 
@@ -177,7 +177,7 @@ def assert_get_comment_by_id_is_ok(response: Response) -> None:
 
 def assert_comment_is_created(response: Response, comment: dict[str, Any]) -> None:
     http_code = response.status_code
-    assert_http_code_is_created(http_code)
+    assert_http_code_is_201(http_code)
 
     assert_response_body_not_empty(response)
 
@@ -190,7 +190,7 @@ def assert_comment_is_created(response: Response, comment: dict[str, Any]) -> No
 
 def assert_comment_is_updated(response: Response, comment: dict[str, Any]) -> None:
     http_code = response.status_code
-    assert_http_code_is_ok(http_code)
+    assert_http_code_is_200(http_code)
 
     assert_response_body_not_empty(response)
 
@@ -203,6 +203,6 @@ def assert_comment_is_updated(response: Response, comment: dict[str, Any]) -> No
 
 def assert_comment_is_deleted(response: Response) -> None:
     http_code = response.status_code
-    assert_http_code_is_ok(http_code)
+    assert_http_code_is_200(http_code)
 
     assert_response_body_is_empty(response)

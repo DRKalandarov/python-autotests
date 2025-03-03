@@ -7,7 +7,7 @@ from src.comments.schemas import CommentRequest
 from tests.api.clients.api_client import ApiClient
 from tests.api.generators.random_data_generator import get_random_str, get_random_int, get_random_email_str
 
-from utils.logger.logger import file_logger
+from utils.logger import file_logger
 
 
 log = file_logger(__name__)

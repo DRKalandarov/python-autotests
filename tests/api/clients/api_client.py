@@ -26,7 +26,7 @@ from tests.api.constants.log_constants import (
     RESPONSE_DATA,
 )
 
-from utils.logger.logger import file_logger
+from utils.logger import file_logger
 
 
 log = file_logger(__name__)

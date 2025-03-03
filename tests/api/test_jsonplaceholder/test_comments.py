@@ -5,7 +5,7 @@ from typing import Any
 
 from tests.api.clients.api_client import ApiClient
 
-from utils.helpers.helpers import (
+from utils.helpers import (
     assert_get_comments_list_is_ok,
     assert_get_comment_by_id_is_ok,
     assert_comment_is_created,

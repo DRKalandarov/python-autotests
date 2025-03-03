@@ -3,7 +3,7 @@ import pytest
 import responses
 import requests
 
-from utils.helpers.helpers import assert_http_code_is_not_found
+from utils.helpers import assert_http_code_is_404
 
 
 @allure.epic("Сущность albums")
@@ -17,4 +17,4 @@ class TestAlbums:
         response = requests.get(self.base_url)
 
         http_code = response.status_code
-        assert_http_code_is_not_found(http_code)
+        assert_http_code_is_404(http_code)
